@@ -1,0 +1,4 @@
+/workspace/G4cint/CMakeFiles/sim.dir
+/workspace/G4cint/CMakeFiles/Simulation.dir
+/workspace/G4cint/CMakeFiles/edit_cache.dir
+/workspace/G4cint/CMakeFiles/rebuild_cache.dir
