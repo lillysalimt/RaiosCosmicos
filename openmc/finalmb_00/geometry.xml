@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<geometry>
+  <cell id="10" material="1" name="Fonte Co60" region="-38 39 -40" universe="2"/>
+  <cell id="11" material="2" name="Esteira" region="-46 45 -42 41 -44 43" universe="2"/>
+  <cell id="13" material="3" name="Detector de CsI" region="-53 55 -56" universe="2"/>
+  <cell id="14" material="2" name="Disco do detector" region="57 -55 -54" universe="2"/>
+  <cell id="15" material="2" name="Região do suporte" region="-54 56 -58" universe="2"/>
+  <cell id="16" material="5" name="Janela do colimador" region="62 -61 64 -63 60 -59" universe="2"/>
+  <cell id="17" material="8" name="Colimador de Chumbo" region="-66 68 -67 (-62 | 61 | -64 | 63 | -60 | 59) (54 | -56 | 58) (53 | -55 | 56) (-57 | 55 | 54)" universe="2"/>
+  <cell id="18" material="5" name="Ar" region="-71 72 -69 70 -73 74 (53 | -55 | 56) (-47 | 48 | -49 | 50 | -51 | 52) (38 | -39 | 40) (46 | -45 | 42 | -41 | 44 | -43) (-62 | 61 | -64 | 63 | -60 | 59) (66 | -68 | 67 | (62 -61 64 -63 60 -59) | (-54 56 -58) | (-53 55 -56) | (57 -55 -54)) (54 | -56 | 58) (-57 | 55 | 54)" universe="2"/>
+  <surface coeffs="0.0 0.0 0.35" id="38" type="z-cylinder"/>
+  <surface coeffs="-30.0" id="39" type="z-plane"/>
+  <surface coeffs="30.0" id="40" type="z-plane"/>
+  <surface coeffs="-75.0" id="41" type="x-plane"/>
+  <surface coeffs="75.0" id="42" type="x-plane"/>
+  <surface coeffs="10.35" id="43" type="y-plane"/>
+  <surface coeffs="10.45" id="44" type="y-plane"/>
+  <surface coeffs="-25.0" id="45" type="z-plane"/>
+  <surface coeffs="25.0" id="46" type="z-plane"/>
+  <surface coeffs="-10.0" id="47" type="x-plane"/>
+  <surface coeffs="10.0" id="48" type="x-plane"/>
+  <surface coeffs="10.45" id="49" type="y-plane"/>
+  <surface coeffs="10.45" id="50" type="y-plane"/>
+  <surface coeffs="-10.0" id="51" type="z-plane"/>
+  <surface coeffs="10.0" id="52" type="z-plane"/>
+  <surface coeffs="0.0 52.35 3.8" id="53" type="z-cylinder"/>
+  <surface coeffs="0.0 52.35 3.8" id="54" type="z-cylinder"/>
+  <surface coeffs="-2.5" id="55" type="z-plane"/>
+  <surface coeffs="2.5" id="56" type="z-plane"/>
+  <surface coeffs="-4.3" id="57" type="z-plane"/>
+  <surface coeffs="31.6" id="58" type="z-plane"/>
+  <surface coeffs="3.9" id="59" type="x-plane"/>
+  <surface coeffs="-3.9" id="60" type="x-plane"/>
+  <surface coeffs="52.35" id="61" type="y-plane"/>
+  <surface coeffs="45.75" id="62" type="y-plane"/>
+  <surface coeffs="3.0" id="63" type="z-plane"/>
+  <surface coeffs="-3.0" id="64" type="z-plane"/>
+  <surface coeffs="0.0 52.35 6.6" id="66" type="z-cylinder"/>
+  <surface coeffs="7.3" id="67" type="z-plane"/>
+  <surface coeffs="-6.4" id="68" type="z-plane"/>
+  <surface boundary="vacuum" coeffs="200" id="69" type="x-plane"/>
+  <surface boundary="vacuum" coeffs="-200" id="70" type="x-plane"/>
+  <surface boundary="vacuum" coeffs="200" id="71" type="y-plane"/>
+  <surface boundary="vacuum" coeffs="-200" id="72" type="y-plane"/>
+  <surface boundary="vacuum" coeffs="200" id="73" type="z-plane"/>
+  <surface boundary="vacuum" coeffs="-200" id="74" type="z-plane"/>
+</geometry>

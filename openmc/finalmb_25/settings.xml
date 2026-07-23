@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<settings>
+  <run_mode>fixed source</run_mode>
+  <particles>10000000</particles>
+  <batches>1</batches>
+  <source particle="photon" strength="74000.0" type="independent">
+    <space origin="0.0 0.0 0.0" type="cylindrical">
+      <r parameters="0 0.7" type="uniform"/>
+      <phi parameters="0 6.283185307179586" type="uniform"/>
+      <z parameters="-30.0 30.0" type="uniform"/>
+    </space>
+    <angle type="isotropic"/>
+    <energy type="discrete">
+      <parameters>1173200.0 1332500.0 0.5 0.5</parameters>
+    </energy>
+  </source>
+  <source particle="photon" strength="109000.0" type="independent">
+    <space origin="0.0 0.0 0.0" type="spherical">
+      <r parameters="90.0 100.0 2" type="powerlaw"/>
+      <cos_theta parameters="-1.0 1.0" type="uniform"/>
+      <phi parameters="0.0 3.141592653589793" type="uniform"/>
+    </space>
+    <angle type="isotropic"/>
+    <energy type="discrete">
+      <parameters>11300.0 14200.0 17900.0 22500.0 28400.0 35700.0 45000.0 56600.0 71300.0 89700.0 113000.0 142000.0 179000.0 225000.0 284000.0 357000.0 450000.0 566000.0 713000.0 897000.0 1130000.0 1420000.0 1790000.0 2250000.0 2840000.0 3570000.0 4500000.0 5660000.0 7130000.0 8970000.0 11300000.0 14200000.0 17900000.0 22500000.0 28400000.0 35700000.0 45000000.0 56600000.0 71300000.0 89700000.0 113000000.0 142000000.0 179000000.0 225000000.0 284000000.0 357000000.0 450000000.0 566000000.0 713000000.0 897000000.0 0.000475 0.0014 0.0041 0.012 0.0344 0.0903 0.176 0.203 0.157 0.106 0.0691 0.045 0.0294 0.0194 0.0129 0.00873 0.00596 0.0132 0.00291 0.00209 0.00152 0.00112 0.000841 0.000639 0.00049 0.000379 0.000295 0.00023 0.000179 0.000138 0.000106 7.95e-05 5.87e-05 4.22e-05 2.96e-05 2.01e-05 1.32e-05 8.47e-06 5.29e-06 3.24e-06 1.95e-06 1.16e-06 6.83e-07 3.99e-07 2.32e-07 1.35e-07 7.77e-08 4.48e-08 2.58e-08 1.49e-08</parameters>
+    </energy>
+  </source>
+  <source particle="photon" strength="15900.0" type="independent">
+    <space origin="0.0 0.0 0.0" type="spherical">
+      <r parameters="90.0 100.0 2" type="powerlaw"/>
+      <cos_theta parameters="-1.0 1.0" type="uniform"/>
+      <phi parameters="0.0 -3.141592653589793" type="uniform"/>
+    </space>
+    <angle type="isotropic"/>
+    <energy type="discrete">
+      <parameters>1460000.0 1.0</parameters>
+    </energy>
+  </source>
+  <output>
+    <tallies>false</tallies>
+  </output>
+  <photon_transport>true</photon_transport>
+</settings>

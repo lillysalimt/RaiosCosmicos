@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='utf-8'?>
+<materials>
+  <material id="1" name="Fonte de Cobalto">
+    <density units="g/cm3" value="8.9"/>
+    <nuclide ao="1.0" name="Co59"/>
+  </material>
+  <material id="2" name="Aço">
+    <density units="g/cm3" value="7.85"/>
+    <nuclide ao="0.057281" name="Fe54"/>
+    <nuclide ao="0.8991892" name="Fe56"/>
+    <nuclide ao="0.0207662" name="Fe57"/>
+    <nuclide ao="0.0027636" name="Fe58"/>
+    <nuclide ao="0.02" name="C0"/>
+  </material>
+  <material id="3" name="Detector de CsI">
+    <density units="g/cm3" value="4.51"/>
+    <nuclide ao="0.5" name="Cs133"/>
+    <nuclide ao="0.5" name="I127"/>
+  </material>
+  <material id="4" name="Água">
+    <density units="g/cm3" value="1.0"/>
+    <nuclide ao="2.0" name="H1"/>
+    <nuclide ao="1.0" name="O16"/>
+  </material>
+  <material id="5" name="Ar">
+    <density units="g/cm3" value="0.001225"/>
+    <nuclide ao="0.755" name="N14"/>
+    <nuclide ao="0.231" name="O16"/>
+    <nuclide ao="0.013" name="Ar40"/>
+  </material>
+  <material id="6" name="m_carvao Hulha">
+    <density units="g/cm3" value="0.793"/>
+    <nuclide ao="0.78" name="C0"/>
+    <nuclide ao="0.04999221300000001" name="H1"/>
+    <nuclide ao="7.787e-06" name="H2"/>
+    <nuclide ao="0.12995073000000001" name="O16"/>
+    <nuclide ao="4.927e-05" name="O17"/>
+    <nuclide ao="0.019926740000000002" name="N14"/>
+    <nuclide ao="7.326e-05" name="N15"/>
+    <nuclide ao="0.019008148" name="S32"/>
+    <nuclide ao="0.000149738" name="S33"/>
+    <nuclide ao="0.0008391980000000001" name="S34"/>
+    <nuclide ao="2.916e-06" name="S36"/>
+  </material>
+  <material id="7" name="Minério de Ferro">
+    <density units="g/cm3" value="3.5"/>
+    <nuclide ao="0.03507" name="Fe54"/>
+    <nuclide ao="0.550524" name="Fe56"/>
+    <nuclide ao="0.012714" name="Fe57"/>
+    <nuclide ao="0.001692" name="Fe58"/>
+    <nuclide ao="0.2998863" name="O16"/>
+    <nuclide ao="0.0001137" name="O17"/>
+    <nuclide ao="0.046114840000000004" name="Si28"/>
+    <nuclide ao="0.0023415800000000002" name="Si29"/>
+    <nuclide ao="0.0015435800000000001" name="Si30"/>
+    <nuclide ao="0.04" name="Al27"/>
+    <nuclide ao="0.01" name="Mn55"/>
+  </material>
+  <material id="8" name="Chumbo">
+    <density units="g/cm3" value="11.34"/>
+    <nuclide ao="0.524" name="Pb208"/>
+    <nuclide ao="0.221" name="Pb207"/>
+    <nuclide ao="0.241" name="Pb206"/>
+    <nuclide ao="0.014" name="Pb204"/>
+  </material>
+  <material id="17" name="Concreto">
+    <density units="g/cm3" value="2.4"/>
+    <nuclide ao="0.2913224953538935" name="Ca40"/>
+    <nuclide ao="0.0019443337132273146" name="Ca42"/>
+    <nuclide ao="0.00040569559704124806" name="Ca43"/>
+    <nuclide ao="0.006268748262429951" name="Ca44"/>
+    <nuclide ao="1.2020610282703647e-05" name="Ca46"/>
+    <nuclide ao="0.0005619635307163954" name="Ca48"/>
+    <nuclide ao="0.5521559495170751" name="O16"/>
+    <nuclide ao="0.00020934644717044912" name="O17"/>
+    <nuclide ao="0.07780383597680647" name="Si28"/>
+    <nuclide ao="0.003950656800426294" name="Si29"/>
+    <nuclide ao="0.002604290617447202" name="Si30"/>
+    <nuclide ao="0.024855260729091375" name="Al27"/>
+    <nuclide ao="0.0007420540180005826" name="Fe54"/>
+    <nuclide ao="0.011648661140740028" name="Fe56"/>
+    <nuclide ao="0.000269018385653248" name="Fe57"/>
+    <nuclide ao="3.580140856735061e-05" name="Fe58"/>
+    <nuclide ao="0.00992827352788002" name="Mg24"/>
+    <nuclide ao="0.0012600385143868701" name="Mg25"/>
+    <nuclide ao="0.0013869226322527736" name="Mg26"/>
+    <nuclide ao="0.005017693721248018" name="K39"/>
+    <nuclide ao="6.295111796037213e-07" name="K40"/>
+    <nuclide ao="0.0003621142000828176" name="K41"/>
+    <nuclide ao="0.004088704863904392" name="Na23"/>
+    <nuclide ao="0.003008505995472394" name="S32"/>
+    <nuclide ao="2.369971397266295e-05" name="S33"/>
+    <nuclide ao="0.00013282368247492825" name="S34"/>
+    <nuclide ao="4.61528576208345e-07" name="S36"/>
+  </material>
+</materials>
