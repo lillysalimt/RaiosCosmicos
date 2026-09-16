@@ -1,6 +1,7 @@
 #include "construction.hh"
 
 MyDetectorConstruction::MyDetectorConstruction()
+: logicDetetor(nullptr)
 {} 
 
 MyDetectorConstruction::~MyDetectorConstruction()
@@ -142,8 +143,8 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 
     // "SiPM"
     G4Tubs* solidSiPM = new G4Tubs("solidSiPM", 0.36*cm, 0.37*cm, 30*cm, 0*deg, 360*deg);
-    G4LogicalVolume* logicSiPM = new G4LogicalVolume(solidFonte, m_Ar, "logicSiPM");
-    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, 0), logicSiPM, "physSiPM", logicMundo, false, 0, true);
+    logicDetetor = new G4LogicalVolume(solidSiPM, m_Ar, "logicSiPM");
+    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, 0), logicDetetor, "physSiPM", logicMundo, false, 0, true);
 
     return physMundo;
 }
