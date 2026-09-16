@@ -132,7 +132,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 
 
     // Caixa de ar
-    G4Box *solidMundo = new G4Box("solidMundo", 50*cm, 50*cm, 50*cm);
+    G4Box *solidMundo = new G4Box("solidMundo", 100*cm, 100*cm, 100*cm);
     G4LogicalVolume *logicMundo= new G4LogicalVolume(solidMundo, m_Ar, "logicMundo");
     G4VPhysicalVolume *physMundo = new G4PVPlacement(0, G4ThreeVector(0,0,0), logicMundo, "physMundo", 0, false, 0, true);
 
@@ -141,8 +141,26 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     G4LogicalVolume* logicFonte = new G4LogicalVolume(solidFonte, fonteMat, "logicFonte");
     new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, 0), logicFonte, "physFonte", logicMundo, false, 0, true);
 
+    // Blindagem de chumbo
+    G4Tubs* solidBlindagem = new G4Tubs("solidBlindagem", 0.35*cm, 10*cm, 30*cm, 0*deg, 360*deg);
+    G4Box* solidRecorte = new G4Box("solidRecorte", 5*cm, 0.35*cm, 30*cm);
+    G4SubtractionSolid* solidBlindagemFinal = new G4SubtractionSolid("solidBlindagemFinal", solidBlindagem, solidRecorte, 0, G4ThreeVector(5.0*cm, 0.0*cm, 0.0*cm));
+    G4LogicalVolume* logicBlindagem = new G4LogicalVolume(solidBlindagemFinal, m_Pb, "logicBlindagem");
+    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, 0), logicBlindagem, "physBlindagem", logicMundo, false, 0, true);
+
+
+    // Tampa superior blindagem
+    G4Tubs* solidTampaSuperior = new G4Tubs("solidTampaSuperior", 0*cm, 10*cm, 10*cm, 0*deg, 360*deg);
+    G4LogicalVolume* logicTampaSuperior = new G4LogicalVolume(solidTampaSuperior, m_Pb, "logicTampaSuperior");
+    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, 40*cm), logicTampaSuperior, "physTampaSuperior", logicMundo, false, 0, true);
+
+    // Tampa inferior blindagem
+    G4Tubs* solidTampaInferior = new G4Tubs("solidTampaInferior", 0*cm, 10*cm, 10*cm, 0*deg, 360*deg);
+    G4LogicalVolume* logicTampaInferior = new G4LogicalVolume(solidTampaInferior, m_Pb, "logicTampaInferior");
+    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, -40*cm), logicTampaInferior, "physTampaInferior", logicMundo, false, 0, true);
+
     // "SiPM"
-    G4Tubs* solidSiPM = new G4Tubs("solidSiPM", 0.36*cm, 0.37*cm, 30*cm, 0*deg, 360*deg);
+    G4Tubs* solidSiPM = new G4Tubs("solidSiPM", 15*cm, 15.5*cm, 30*cm, 0*deg, 360*deg);
     logicDetetor = new G4LogicalVolume(solidSiPM, m_Ar, "logicSiPM");
     new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, 0), logicDetetor, "physSiPM", logicMundo, false, 0, true);
 
