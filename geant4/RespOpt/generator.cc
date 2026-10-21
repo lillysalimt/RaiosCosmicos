@@ -1,4 +1,6 @@
 #include "generator.hh"
+#include <algorithm>
+#include <cmath>
 
 
 static const std::vector<G4double> energias = {
@@ -40,13 +42,13 @@ static const std::vector<G4double> fracoes_muons_n = {2.5925925925925925e-05, 3.
 G4double rInt = 90 * cm;
 G4double rExt = 100.0 * cm;
 
-G4double at_60Co = 7.4E4;
-G4double at_concreto = 1.59E4;
+G4double at_60Co = 7.4E7;
+G4double at_concreto = 0 ;// 1.59E4;
 
 // Atividade Expacs * 10^4 * 2pi // * 1.57
-G4double at_fotons = 4.39E5; //1.09E5;
-G4double at_muons_p = 2.482; // 0.62015; 
-G4double at_muons_n = 2.274; // 0.56834;
+G4double at_fotons = 0;// 4.39E5; //1.09E5;
+G4double at_muons_p = 0;//2.482; // 0.62015; 
+G4double at_muons_n = 0;//2.274; // 0.56834;
 
 G4double at_total = at_60Co + at_concreto + at_fotons + at_muons_p + at_muons_n;
 
@@ -56,7 +58,27 @@ G4double prob_fotons = at_fotons / at_total;
 G4double prob_muons_p = at_muons_p / at_total;
 G4double prob_muons_n = at_muons_n / at_total;
 
-G4ThreeVector posDetector = G4ThreeVector(0, 54.15*cm, 0);
+G4ThreeVector posDetector = G4ThreeVector(0, 70*cm, 0);
+
+// Fonte hemisférica (casca rInt–rExt, y>0), com I(θ) ∝ cos²(θ) no nascimento.
+// G4RandomDirection era uniforme em dΩ; aqui dN ∝ cos²(θ) dΩ ⇒ cos(θ) = u^{1/3}.
+static void AmostraMuonCos2Zenite(G4ParticleGun* gun)
+{
+    const G4double rCube = G4Pow::GetInstance()->powA(rInt, 3) +
+        G4UniformRand() * (G4Pow::GetInstance()->powA(rExt, 3) - G4Pow::GetInstance()->powA(rInt, 3));
+    const G4double rSorteado = G4Pow::GetInstance()->powA(rCube, 1.0/3.0);
+
+    const G4double cosTheta = G4Pow::GetInstance()->powA(G4UniformRand(), 1.0/3.0);
+    const G4double sinTheta = std::sqrt(std::max(0.0, 1.0 - cosTheta * cosTheta));
+    const G4double phi = G4UniformRand() * 360.0 * deg;
+
+    const G4ThreeVector posCosmica(sinTheta * std::cos(phi) * rSorteado,
+                                   cosTheta * rSorteado,
+                                   sinTheta * std::sin(phi) * rSorteado);
+
+    gun->SetParticlePosition(posCosmica);
+    gun->SetParticleMomentumDirection((posDetector - posCosmica).unit());
+}
 
 MyPrimaryGenerator::MyPrimaryGenerator()
 {
@@ -87,7 +109,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
         fParticleGun->SetParticleEnergy(energiaCo60);
 
         G4double raioMax = 0.35 * cm;
-        G4double metadeAltura = 30 * cm;
+        G4double metadeAltura = 25 * cm;
         G4double phi = G4UniformRand() * 360 * deg;
         G4double r = G4RandomRadiusInRing(0, raioMax);
         
@@ -103,7 +125,8 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
         G4ThreeVector posMundo = rotCylinder * posLocal;
 
         fParticleGun->SetParticlePosition(posMundo);
-        fParticleGun->SetParticleMomentumDirection((posDetector - posMundo).unit()); // Direcionado ao centro do detector
+        fParticleGun->SetParticleMomentumDirection(G4RandomDirection());
+        //fParticleGun->SetParticleMomentumDirection((posDetector - posMundo).unit()); // Direcionado ao centro do detector
     }
     else if (sorteioFonte < prob_60Co + prob_concreto)
     {
@@ -149,21 +172,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
             }
         }
         fParticleGun->SetParticleEnergy(energiaSelecionada);
-
-        G4double rCube = G4Pow::GetInstance()->powA(rInt, 3) + 
-                 G4UniformRand() * (G4Pow::GetInstance()->powA(rExt, 3) - G4Pow::GetInstance()->powA(rInt, 3));
-        G4double rSorteado = G4Pow::GetInstance()->powA(rCube, 1.0/3.0);
-
-        G4ThreeVector direcaoAleatoria = G4RandomDirection();
-
-        if (direcaoAleatoria.y() < 0) {
-        direcaoAleatoria.setY(-direcaoAleatoria.y());
-        }
-        G4ThreeVector posCosmica = direcaoAleatoria * rSorteado;
-
-        fParticleGun->SetParticlePosition(posCosmica);
-        fParticleGun->SetParticleMomentumDirection((posDetector - posCosmica).unit()); // Direcionado ao centro do detector
-
+        AmostraMuonCos2Zenite(fParticleGun);
     }
 
     else if (sorteioFonte < prob_60Co + prob_concreto + prob_muons_p + prob_muons_n)
@@ -186,21 +195,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
             }
         }
         fParticleGun->SetParticleEnergy(energiaSelecionada);
-
-        G4double rCube = G4Pow::GetInstance()->powA(rInt, 3) + 
-                 G4UniformRand() * (G4Pow::GetInstance()->powA(rExt, 3) - G4Pow::GetInstance()->powA(rInt, 3));
-        G4double rSorteado = G4Pow::GetInstance()->powA(rCube, 1.0/3.0);
-
-        G4ThreeVector direcaoAleatoria = G4RandomDirection();
-
-        if (direcaoAleatoria.y() < 0) {
-        direcaoAleatoria.setY(-direcaoAleatoria.y());
-        }
-        G4ThreeVector posCosmica = direcaoAleatoria * rSorteado;
-
-        fParticleGun->SetParticlePosition(posCosmica);
-        fParticleGun->SetParticleMomentumDirection((posDetector - posCosmica).unit()); // Direcionado ao centro do detector
-
+        AmostraMuonCos2Zenite(fParticleGun);
     }
 
     else

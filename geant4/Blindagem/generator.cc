@@ -34,7 +34,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
         G4double yLocal = r * sin(phi);
         G4double zLocal = (G4UniformRand() * 2.0 - 1.0) * metadeAltura;
 
-        G4ThreeVector posLocal(xLocal, yLocal, zLocal);
+        G4ThreeVector posLocal(xLocal+8.5*cm, yLocal, zLocal);
 
         G4RotationMatrix rotCylinder;
         rotCylinder.rotateZ(90 * deg);

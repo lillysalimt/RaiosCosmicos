@@ -42,13 +42,13 @@ static const std::vector<G4double> fracoes_muons_n = {2.5925925925925925e-05, 3.
 G4double rInt = 90 * cm;
 G4double rExt = 100.0 * cm;
 
-G4double at_60Co = 7.4E7;
-G4double at_concreto = 0 ;// 1.59E4;
+G4double at_60Co = 0;//7.4E7;
+G4double at_concreto =  1.59E4;
 
 // Atividade Expacs * 10^4 * 2pi // * 1.57
-G4double at_fotons = 0;// 4.39E5; //1.09E5;
-G4double at_muons_p = 0;//2.482; // 0.62015; 
-G4double at_muons_n = 0;//2.274; // 0.56834;
+G4double at_fotons =  4.39E5; //1.09E5;
+G4double at_muons_p = 2.482; // 0.62015; 
+G4double at_muons_n = 2.274; // 0.56834;
 
 G4double at_total = at_60Co + at_concreto + at_fotons + at_muons_p + at_muons_n;
 

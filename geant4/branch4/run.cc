@@ -15,7 +15,7 @@ MyRunAction::~MyRunAction() {}
 void MyRunAction::BeginOfRunAction(const G4Run*)
 {
     auto analysisManager = G4AnalysisManager::Instance();
-    analysisManager->OpenFile("tetse_atividade.csv"); // Força a extensão .csv
+    analysisManager->OpenFile("tetse_185E6(SC).csv"); // Força a extensão .csv
 }
 
 void MyRunAction::EndOfRunAction(const G4Run*)

@@ -136,44 +136,70 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     G4VPhysicalVolume *physMundo = new G4PVPlacement(0, G4ThreeVector(0,0,0), logicMundo, "physMundo", 0, false, 0, true);
 
     // Fonte de Co
-    G4Tubs* solidFonte = new G4Tubs("solidFonte", 0*cm, 0.35*cm, 30*cm, 0*deg, 360*deg);
+    G4Tubs* solidFonte = new G4Tubs("solidFonte", 0*cm, 0.35*cm, 25*cm, 0*deg, 360*deg);
     G4LogicalVolume* logicFonte = new G4LogicalVolume(solidFonte, fonteMat, "logicFonte");
     new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, 0), logicFonte, "physFonte", logicMundo, false, 0, true);
 
+
+
+
+    // Blindagem de chumbo
+    G4Tubs* solidBlindagem = new G4Tubs("solidBlindagem", 0.35*cm, 8*cm, 25*cm, 0*deg, 360*deg);
+    G4Box* solidRecorteBlindagem = new G4Box("solidRecorteBlindagem", 4.35*cm, 0.35*cm, 25*cm);
+    G4SubtractionSolid* solidBlindagemFinal = new G4SubtractionSolid("solidBlindagemFinal", solidBlindagem, solidRecorteBlindagem, 0, G4ThreeVector(-4*cm, 0.0*cm, 0.0*cm));
+    G4LogicalVolume* logicBlindagem = new G4LogicalVolume(solidBlindagemFinal, m_Pb, "logicBlindagem");
+    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, 0), logicBlindagem, "physBlindagem", logicMundo, false, 0, true);
+
+
+    // Tampa superior blindagem
+    G4Tubs* solidTampaSuperior = new G4Tubs("solidTampaSuperior", 0*cm, 8*cm, 8*cm, 0*deg, 360*deg);
+    G4LogicalVolume* logicTampaSuperior = new G4LogicalVolume(solidTampaSuperior, m_Pb, "logicTampaSuperior");
+    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, 33*cm), logicTampaSuperior, "physTampaSuperior", logicMundo, false, 0, true);
+
+    // Tampa inferior blindagem
+    G4Tubs* solidTampaInferior = new G4Tubs("solidTampaInferior", 0*cm, 8*cm, 8*cm, 0*deg, 360*deg);
+    G4LogicalVolume* logicTampaInferior = new G4LogicalVolume(solidTampaInferior, m_Pb, "logicTampaInferior");
+    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 0, -33*cm), logicTampaInferior, "physTampaInferior", logicMundo, false, 0, true);
+
+
+
+
+
+
     // Esteira de plastico
-    G4Box *solidEsteira = new G4Box("solidEsteira", 25*cm, 0.5*mm, 75*cm);
+    G4Box *solidEsteira = new G4Box("solidEsteira", 25*cm, 0.05*cm, 75*cm);
     G4LogicalVolume *logicEsteira = new G4LogicalVolume(solidEsteira, m_plastico, "logicEsteira");
-    new G4PVPlacement(0, G4ThreeVector(0,10.5*cm,0), logicEsteira, "physEsteira", logicMundo, false, 0, true);
+    new G4PVPlacement(0, G4ThreeVector(0, 13.55*cm,0), logicEsteira, "physEsteira", logicMundo, false, 0, true);
 
     // Tarugo
-    G4double meia_altura_tarugo = 7.8*cm;
-    G4double centro_tarugo = (10.55*cm + meia_altura_tarugo);
+    G4double meia_altura_tarugo = 10.99*cm;
+    G4double centro_tarugo = (13.6*cm + meia_altura_tarugo);
     G4Box *solidTarugo = new G4Box("solidTarugo", 10*cm, meia_altura_tarugo, 10*cm);
     G4LogicalVolume *logicTarugo = new G4LogicalVolume(solidTarugo, m_Ore, "logicTarugo");
     new G4PVPlacement(0, G4ThreeVector(0, centro_tarugo, 0), logicTarugo, "physTarugo", logicMundo, false, 0, true);
 
     // Colimador de chumbo
-    G4Tubs* solidColimadorBase = new G4Tubs("solidColimadorBase", 3.8*cm, 6.6*cm, 6.85*cm, 0*deg, 360*deg);
-    G4Box* solidRecorte = new G4Box("solidRecorte", 3.8*cm, 3.0*cm, 3.8*cm);
-    G4SubtractionSolid* solidColimadorFinal = new G4SubtractionSolid("solidColimadorFinal", solidColimadorBase, solidRecorte, 0, G4ThreeVector(4.8*cm, 0., 0.));
-    G4LogicalVolume* logicColimador = new G4LogicalVolume(solidColimadorFinal, m_Pb, "logicColimador");
-    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 54.15*cm, 0), logicColimador, "physColimador", logicMundo, false, 0, true);
+    // G4Tubs* solidColimadorBase = new G4Tubs("solidColimadorBase", 3.8*cm, 6.6*cm, 6.85*cm, 0*deg, 360*deg);
+    // G4Box* solidRecorte = new G4Box("solidRecorte", 3.8*cm, 3.0*cm, 3.8*cm);
+    // G4SubtractionSolid* solidColimadorFinal = new G4SubtractionSolid("solidColimadorFinal", solidColimadorBase, solidRecorte, 0, G4ThreeVector(4.8*cm, 0., 0.));
+    // G4LogicalVolume* logicColimador = new G4LogicalVolume(solidColimadorFinal, m_Pb, "logicColimador");
+    // new G4PVPlacement(rotCylinder, G4ThreeVector(0, 70*cm, 0), logicColimador, "physColimador", logicMundo, false, 0, true);
 
     // Disco de alumínio
     G4Tubs* solidDisco = new G4Tubs("solidDisco", 0*cm, 3.8*cm, 0.9*cm, 0*deg, 360*deg);
     G4LogicalVolume* logicDisco = new G4LogicalVolume(solidDisco, m_Aco, "logicDisco");
-    new G4PVPlacement(rotCylinder, G4ThreeVector( 0, 54.15*cm, -3.4*cm), logicDisco, "physDisco", logicMundo, false, 0, true);
+    new G4PVPlacement(rotCylinder, G4ThreeVector( 0, 70*cm, -3.4*cm), logicDisco, "physDisco", logicMundo, false, 0, true);
 
     // Clamping de alumínio
     G4Tubs* solidClamping = new G4Tubs("solidClamping", 0*cm, 3.8*cm, 14.55*cm, 0*deg, 360*deg);
     G4LogicalVolume* logicClamping = new G4LogicalVolume(solidClamping, m_Aco, "logicClamping");
-    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 54.15*cm, 17.05*cm), logicClamping, "physClamping", logicMundo, false, 0, true);
+    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 70*cm, 17.05*cm), logicClamping, "physClamping", logicMundo, false, 0, true);
 
 
     // Detetor de CsI
     G4Tubs* solidDetetor = new G4Tubs("solidDetetor", 0*cm, 3.8*cm, 2.5*cm, 0*deg, 360*deg);
     logicDetetor = new G4LogicalVolume(solidDetetor, detetorMat, "logicDetetor");
-    G4VPhysicalVolume* physDetetor = new G4PVPlacement(rotCylinder, G4ThreeVector(0, 54.15*cm, 0), logicDetetor, "physDetetor", logicMundo, false, 0, true);
+    G4VPhysicalVolume* physDetetor = new G4PVPlacement(rotCylinder, G4ThreeVector(0, 70*cm, 0), logicDetetor, "physDetetor", logicMundo, false, 0, true);
 
 
     return physMundo;

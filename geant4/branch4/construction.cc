@@ -179,11 +179,11 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     new G4PVPlacement(0, G4ThreeVector(0, centro_tarugo, 0), logicTarugo, "physTarugo", logicMundo, false, 0, true);
 
     // Colimador de chumbo
-    G4Tubs* solidColimadorBase = new G4Tubs("solidColimadorBase", 3.8*cm, 6.6*cm, 6.85*cm, 0*deg, 360*deg);
-    G4Box* solidRecorte = new G4Box("solidRecorte", 3.8*cm, 3.0*cm, 3.8*cm);
-    G4SubtractionSolid* solidColimadorFinal = new G4SubtractionSolid("solidColimadorFinal", solidColimadorBase, solidRecorte, 0, G4ThreeVector(4.8*cm, 0., 0.));
-    G4LogicalVolume* logicColimador = new G4LogicalVolume(solidColimadorFinal, m_Pb, "logicColimador");
-    new G4PVPlacement(rotCylinder, G4ThreeVector(0, 70*cm, 0), logicColimador, "physColimador", logicMundo, false, 0, true);
+    // G4Tubs* solidColimadorBase = new G4Tubs("solidColimadorBase", 3.8*cm, 6.6*cm, 6.85*cm, 0*deg, 360*deg);
+    // G4Box* solidRecorte = new G4Box("solidRecorte", 3.8*cm, 3.0*cm, 3.8*cm);
+    // G4SubtractionSolid* solidColimadorFinal = new G4SubtractionSolid("solidColimadorFinal", solidColimadorBase, solidRecorte, 0, G4ThreeVector(4.8*cm, 0., 0.));
+    // G4LogicalVolume* logicColimador = new G4LogicalVolume(solidColimadorFinal, m_Pb, "logicColimador");
+    // new G4PVPlacement(rotCylinder, G4ThreeVector(0, 70*cm, 0), logicColimador, "physColimador", logicMundo, false, 0, true);
 
     // Disco de alumínio
     G4Tubs* solidDisco = new G4Tubs("solidDisco", 0*cm, 3.8*cm, 0.9*cm, 0*deg, 360*deg);
