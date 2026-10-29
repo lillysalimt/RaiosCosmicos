@@ -1,0 +1,4 @@
+/home/lilly/git/RaiosCosmicos/geant4/branch6/CMakeFiles/sim.dir
+/home/lilly/git/RaiosCosmicos/geant4/branch6/CMakeFiles/Simulation.dir
+/home/lilly/git/RaiosCosmicos/geant4/branch6/CMakeFiles/edit_cache.dir
+/home/lilly/git/RaiosCosmicos/geant4/branch6/CMakeFiles/rebuild_cache.dir
