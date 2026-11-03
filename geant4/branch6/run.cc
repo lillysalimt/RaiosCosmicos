@@ -15,7 +15,7 @@ MyRunAction::~MyRunAction() {}
 void MyRunAction::BeginOfRunAction(const G4Run*)
 {
     auto analysisManager = G4AnalysisManager::Instance();
-    analysisManager->OpenFile("RCRA_vazia(SC).csv"); // Força a extensão .csv
+    analysisManager->OpenFile("cobalto_nova_vazia(SC)teste1s.csv"); // Força a extensão .csv
 }
 
 void MyRunAction::EndOfRunAction(const G4Run*)

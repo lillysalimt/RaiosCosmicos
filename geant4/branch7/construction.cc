@@ -172,11 +172,11 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     new G4PVPlacement(0, G4ThreeVector(0, 13.55*cm,0), logicEsteira, "physEsteira", logicMundo, false, 0, true);
 
     // Tarugo
-    G4double meia_altura_tarugo = 10.99*cm;
+    G4double meia_altura_tarugo = 15*cm;
     G4double centro_tarugo = (13.6*cm + meia_altura_tarugo);
-    // G4Box *solidTarugo = new G4Box("solidTarugo", 10*cm, meia_altura_tarugo, 10*cm);
-    // G4LogicalVolume *logicTarugo = new G4LogicalVolume(solidTarugo, m_Ore, "logicTarugo");
-    // new G4PVPlacement(0, G4ThreeVector(0, centro_tarugo, 0), logicTarugo, "physTarugo", logicMundo, false, 0, true);
+    G4Box *solidTarugo = new G4Box("solidTarugo", 10*cm, meia_altura_tarugo, 10*cm);
+    G4LogicalVolume *logicTarugo = new G4LogicalVolume(solidTarugo, m_Ore, "logicTarugo");
+    new G4PVPlacement(0, G4ThreeVector(0, centro_tarugo, 0), logicTarugo, "physTarugo", logicMundo, false, 0, true);
 
     // Colimador de chumbo
     G4Tubs* solidColimadorBase = new G4Tubs("solidColimadorBase", 3.8*cm, 6.6*cm, 6.85*cm, 0*deg, 360*deg);
