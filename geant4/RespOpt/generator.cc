@@ -1,4 +1,6 @@
 #include "generator.hh"
+#include <algorithm>
+#include <cmath>
 
 
 static const std::vector<G4double> energias = {
@@ -38,13 +40,13 @@ static const std::vector<G4double> fracoes_muons_n = {2.5925925925925925e-05, 3.
     0.009651416122004357, 0.006840958605664488, 0.004662309368191721};
 
 G4double rInt = 90 * cm;
-G4double rExt = 100.0 * cm;
+G4double rExt = 100 * cm;
 
-G4double at_60Co = 7.4E4;
-G4double at_concreto = 1.59E4;
+G4double at_60Co = 0;//7.4E7;
+G4double at_concreto =  1.59E4;
 
 // Atividade Expacs * 10^4 * 2pi // * 1.57
-G4double at_fotons = 4.39E5; //1.09E5;
+G4double at_fotons =  4.39E5; //1.09E5;
 G4double at_muons_p = 2.482; // 0.62015; 
 G4double at_muons_n = 2.274; // 0.56834;
 
@@ -56,7 +58,46 @@ G4double prob_fotons = at_fotons / at_total;
 G4double prob_muons_p = at_muons_p / at_total;
 G4double prob_muons_n = at_muons_n / at_total;
 
-G4ThreeVector posDetector = G4ThreeVector(0, 54.15*cm, 0);
+// // limites x e z
+// G4double xmin = -50*cm;
+// G4double xmax = 50*cm;
+
+// G4double zmin = -50*cm;
+// G4double zmax = 50*cm;
+
+// // y chão e teto
+// G4double ychao = -15*cm;
+// G4double yteto = 85*cm;
+
+// // x aleatório
+// G4double x_aleatorio = xmin + (xmax - xmin) * G4UniformRand();
+// G4double z_aleatorio = zmin + (zmax - zmin) * G4UniformRand();
+
+// G4ThreeVector posChao = G4ThreeVector(x_aleatorio, ychao, z_aleatorio);
+// G4ThreeVector posteto = G4ThreeVector(x_aleatorio, yteto, z_aleatorio);
+
+G4ThreeVector posDetector = G4ThreeVector(0, 70*cm, 0);
+
+
+// Fonte hemisférica (casca rInt–rExt, y>0), com I(θ) ∝ cos²(θ) no nascimento.
+// G4RandomDirection era uniforme em dΩ; aqui dN ∝ cos²(θ) dΩ ⇒ cos(θ) = u^{1/3}.
+static void AmostraMuonCos2Zenite(G4ParticleGun* gun)
+{
+    const G4double rCube = G4Pow::GetInstance()->powA(rInt, 3) +
+        G4UniformRand() * (G4Pow::GetInstance()->powA(rExt, 3) - G4Pow::GetInstance()->powA(rInt, 3));
+    const G4double rSorteado = G4Pow::GetInstance()->powA(rCube, 1.0/3.0);
+
+    const G4double cosTheta = G4Pow::GetInstance()->powA(G4UniformRand(), 1.0/3.0);
+    const G4double sinTheta = std::sqrt(std::max(0.0, 1.0 - cosTheta * cosTheta));
+    const G4double phi = G4UniformRand() * 360.0 * deg;
+
+    const G4ThreeVector posCosmica(sinTheta * std::cos(phi) * rSorteado,
+                                   cosTheta * rSorteado,
+                                   sinTheta * std::sin(phi) * rSorteado);
+
+    gun->SetParticlePosition(posCosmica);
+    gun->SetParticleMomentumDirection((posDetector - posCosmica).unit());
+}
 
 MyPrimaryGenerator::MyPrimaryGenerator()
 {
@@ -72,7 +113,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
 
 {
     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-    G4double tamanhoMundo = 200.0 * cm; 
+    G4double tamanhoMundo = 250.0 * cm; 
 
     G4double sorteioFonte = G4UniformRand();
     
@@ -87,7 +128,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
         fParticleGun->SetParticleEnergy(energiaCo60);
 
         G4double raioMax = 0.35 * cm;
-        G4double metadeAltura = 30 * cm;
+        G4double metadeAltura = 25 * cm;
         G4double phi = G4UniformRand() * 360 * deg;
         G4double r = G4RandomRadiusInRing(0, raioMax);
         
@@ -103,7 +144,8 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
         G4ThreeVector posMundo = rotCylinder * posLocal;
 
         fParticleGun->SetParticlePosition(posMundo);
-        fParticleGun->SetParticleMomentumDirection((posDetector - posMundo).unit()); // Direcionado ao centro do detector
+        fParticleGun->SetParticleMomentumDirection(G4RandomDirection());
+        //fParticleGun->SetParticleMomentumDirection((posDetector - posMundo).unit()); // Direcionado ao centro do detector
     }
     else if (sorteioFonte < prob_60Co + prob_concreto)
     {
@@ -120,14 +162,39 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
         G4double rSorteadoAmbient = G4Pow::GetInstance()->powA(rCubeAmbient, 1.0/3.0);
 
         G4ThreeVector direcaoAleatoriaAmbient = G4RandomDirection();
+        G4ThreeVector momentoAleatorioAmbient = G4RandomDirection();
 
         if (direcaoAleatoriaAmbient.y() > 0) {
             direcaoAleatoriaAmbient.setY(-direcaoAleatoriaAmbient.y());
         }
 
+        if (momentoAleatorioAmbient.y()<0) {
+            momentoAleatorioAmbient.setY(-momentoAleatorioAmbient.y());
+        }
+
+        // limites x e z
+        G4double xmin = -1*cm;
+        G4double xmax = 1*cm;
+
+        G4double zmin = -1*cm;
+        G4double zmax = 1*cm;
+
+        // y chão e teto
+        G4double yteto = 75*cm;
+
+        // x aleatório
+        G4double x_aleatorio = xmin + (xmax - xmin) * G4UniformRand();
+        G4double z_aleatorio = zmin + (zmax - zmin) * G4UniformRand();
+
+        G4ThreeVector posTeto = G4ThreeVector(x_aleatorio, yteto, z_aleatorio);
+
         G4ThreeVector posAmbiental = direcaoAleatoriaAmbient * rSorteadoAmbient;
+        G4ThreeVector momAmbiental = momentoAleatorioAmbient * rSorteadoAmbient;
+
+        posAmbiental.setY(posAmbiental.y()+70*cm);
+
         fParticleGun->SetParticlePosition(posAmbiental);
-        fParticleGun->SetParticleMomentumDirection((posDetector - posAmbiental).unit()); // Direcionado ao centro do detector
+        fParticleGun->SetParticleMomentumDirection((posTeto - posAmbiental).unit()); // Direcionado ao centro do detector
     }
     else if (sorteioFonte < prob_60Co + prob_concreto + prob_muons_p)
         {
@@ -149,21 +216,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
             }
         }
         fParticleGun->SetParticleEnergy(energiaSelecionada);
-
-        G4double rCube = G4Pow::GetInstance()->powA(rInt, 3) + 
-                 G4UniformRand() * (G4Pow::GetInstance()->powA(rExt, 3) - G4Pow::GetInstance()->powA(rInt, 3));
-        G4double rSorteado = G4Pow::GetInstance()->powA(rCube, 1.0/3.0);
-
-        G4ThreeVector direcaoAleatoria = G4RandomDirection();
-
-        if (direcaoAleatoria.y() < 0) {
-        direcaoAleatoria.setY(-direcaoAleatoria.y());
-        }
-        G4ThreeVector posCosmica = direcaoAleatoria * rSorteado;
-
-        fParticleGun->SetParticlePosition(posCosmica);
-        fParticleGun->SetParticleMomentumDirection((posDetector - posCosmica).unit()); // Direcionado ao centro do detector
-
+        AmostraMuonCos2Zenite(fParticleGun);
     }
 
     else if (sorteioFonte < prob_60Co + prob_concreto + prob_muons_p + prob_muons_n)
@@ -186,21 +239,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
             }
         }
         fParticleGun->SetParticleEnergy(energiaSelecionada);
-
-        G4double rCube = G4Pow::GetInstance()->powA(rInt, 3) + 
-                 G4UniformRand() * (G4Pow::GetInstance()->powA(rExt, 3) - G4Pow::GetInstance()->powA(rInt, 3));
-        G4double rSorteado = G4Pow::GetInstance()->powA(rCube, 1.0/3.0);
-
-        G4ThreeVector direcaoAleatoria = G4RandomDirection();
-
-        if (direcaoAleatoria.y() < 0) {
-        direcaoAleatoria.setY(-direcaoAleatoria.y());
-        }
-        G4ThreeVector posCosmica = direcaoAleatoria * rSorteado;
-
-        fParticleGun->SetParticlePosition(posCosmica);
-        fParticleGun->SetParticleMomentumDirection((posDetector - posCosmica).unit()); // Direcionado ao centro do detector
-
+        AmostraMuonCos2Zenite(fParticleGun);
     }
 
     else
@@ -229,14 +268,39 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
         G4double rSorteado = G4Pow::GetInstance()->powA(rCube, 1.0/3.0);
 
         G4ThreeVector direcaoAleatoria = G4RandomDirection();
+        G4ThreeVector momentoAleatorioRC = G4RandomDirection();
 
         if (direcaoAleatoria.y() < 0) {
         direcaoAleatoria.setY(-direcaoAleatoria.y());
         }
+
+        if (momentoAleatorioRC.y() > 0) {
+            momentoAleatorioRC.setY(-momentoAleatorioRC.y());
+        }
+
         G4ThreeVector posCosmica = direcaoAleatoria * rSorteado;
+        G4ThreeVector momCosmico = momentoAleatorioRC * rSorteado;
+        posCosmica.setY(posCosmica.y() + 70*cm);
+
+
+        // limites x e z
+        G4double xmin = -1*cm;
+        G4double xmax = 1*cm;
+
+        G4double zmin = -1*cm;
+        G4double zmax = 1*cm;
+
+        // y chão e teto
+        G4double ychao = -9*cm;
+
+        // x aleatório
+        G4double x_aleatorio = xmin + (xmax - xmin) * G4UniformRand();
+        G4double z_aleatorio = zmin + (zmax - zmin) * G4UniformRand();
+
+        G4ThreeVector posChao = G4ThreeVector(x_aleatorio, ychao, z_aleatorio);
 
         fParticleGun->SetParticlePosition(posCosmica);
-        fParticleGun->SetParticleMomentumDirection((posDetector - posCosmica).unit()); // Direcionado ao centro do detector
+        fParticleGun->SetParticleMomentumDirection((momCosmico - posCosmica).unit()); // Direcionado ao centro do detector
 
     }
 

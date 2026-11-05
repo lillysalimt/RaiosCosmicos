@@ -1,7 +1,7 @@
 CMakeFiles/sim.dir/physics.cc.o: \
- /home/lilly/git/RaiosCosmicos/geant4/RespOpt/physics.cc \
+ /home/lilly/git/RaiosCosmicos/geant4/Blindagem/physics.cc \
  /usr/include/stdc-predef.h \
- /home/lilly/git/RaiosCosmicos/geant4/RespOpt/physics.hh \
+ /home/lilly/git/RaiosCosmicos/geant4/Blindagem/physics.hh \
  /opt/geant4/include/Geant4/G4VModularPhysicsList.hh \
  /opt/geant4/include/Geant4/G4VPhysicsConstructor.hh \
  /opt/geant4/include/Geant4/G4ParticleTable.hh \

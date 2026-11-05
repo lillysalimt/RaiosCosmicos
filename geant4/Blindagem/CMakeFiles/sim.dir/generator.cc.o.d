@@ -1,7 +1,7 @@
 CMakeFiles/sim.dir/generator.cc.o: \
- /home/lilly/git/RaiosCosmicos/geant4/RespOpt/generator.cc \
+ /home/lilly/git/RaiosCosmicos/geant4/Blindagem/generator.cc \
  /usr/include/stdc-predef.h \
- /home/lilly/git/RaiosCosmicos/geant4/RespOpt/generator.hh \
+ /home/lilly/git/RaiosCosmicos/geant4/Blindagem/generator.hh \
  /opt/geant4/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
  /opt/geant4/include/Geant4/G4ParticleGun.hh \
  /opt/geant4/include/Geant4/globals.hh \
