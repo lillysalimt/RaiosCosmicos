@@ -15,7 +15,7 @@ MyRunAction::~MyRunAction() {}
 void MyRunAction::BeginOfRunAction(const G4Run*)
 {
     auto analysisManager = G4AnalysisManager::Instance();
-    analysisManager->OpenFile("altura25.csv"); // Força a extensão .csv
+    analysisManager->OpenFile("fonte93mci_sc_minerio_vazio.csv"); // Força a extensão .csv
 }
 
 void MyRunAction::EndOfRunAction(const G4Run*)

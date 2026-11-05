@@ -83,6 +83,15 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     m_areia->AddElement(elSi, 1);
     m_areia->AddElement(elO, 2);
 
+    // Carvão
+    G4Material * m_carvao = new G4Material("Carvão", 0.85*g/cm3, 5);
+    G4Element* elS = nist->FindOrBuildElement("S");
+    m_carvao->AddElement(elC, 0.78);
+    m_carvao->AddElement(elH, 0.05);
+    m_carvao->AddElement(elO_puro, 0.13);
+    m_carvao->AddElement(elN_puro, 0.02);
+    m_carvao->AddElement(elS, 0.02);
+
     G4double energias_foton[] = {
         2.00*eV, 2.20*eV, 2.40*eV, 2.60*eV, 2.80*eV, 2.90*eV, 2.95*eV, // 2.95 eV é o seu pico (420 nm)
         3.00*eV, 3.10*eV, 3.20*eV, 3.40*eV, 3.60*eV, 3.80*eV, 4.00*eV
